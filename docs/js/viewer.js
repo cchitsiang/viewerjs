@@ -1371,7 +1371,10 @@
         removeClass(this.canvas, CLASS_LOADING);
       }
 
-      image.style.cssText = 'height:0;' + "margin-left:".concat(viewerData.width / 2, "px;") + "margin-top:".concat(viewerData.height / 2, "px;") + 'max-width:none!important;' + 'position:absolute;' + 'width:0;';
+      if (!image instanceof HTMLIFrameElement) {
+        image.style.cssText = 'height:0;' + "margin-left:".concat(viewerData.width / 2, "px;") + "margin-top:".concat(viewerData.height / 2, "px;") + 'max-width:none!important;' + 'position:absolute;' + 'width:0;';
+      }
+
       this.initImage(function () {
         toggleClass(image, CLASS_MOVE, options.movable);
         toggleClass(image, CLASS_TRANSITION, options.transition);
@@ -1866,7 +1869,13 @@
       var alt = img.getAttribute('alt');
       var image = null;
 
-      if (url.match(/\.mp4$/)) {
+      if (url.match(/\.pdf$/)) {
+        image = document.createElement('iframe');
+        image.src = encodeURI("../pdf/viewer?file=".concat(url));
+        image.width = '90%';
+        image.height = '95%';
+        image.style = "margin: 0 5%; margin-top: 10px";
+      } else if (url.match(/\.mp4$/)) {
         image = document.createElement('video');
         image.controls = true;
         image.autoplay = true;

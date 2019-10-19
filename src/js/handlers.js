@@ -150,14 +150,16 @@ export default {
       removeClass(this.canvas, CLASS_LOADING);
     }
 
-    image.style.cssText = (
-      'height:0;'
-      + `margin-left:${viewerData.width / 2}px;`
-      + `margin-top:${viewerData.height / 2}px;`
-      + 'max-width:none!important;'
-      + 'position:absolute;'
-      + 'width:0;'
-    );
+    if (!image instanceof HTMLIFrameElement) {
+      image.style.cssText = (
+        'height:0;'
+        + `margin-left:${viewerData.width / 2}px;`
+        + `margin-top:${viewerData.height / 2}px;`
+        + 'max-width:none!important;'
+        + 'position:absolute;'
+        + 'width:0;'
+      );
+    }
 
     this.initImage(() => {
       toggleClass(image, CLASS_MOVE, options.movable);

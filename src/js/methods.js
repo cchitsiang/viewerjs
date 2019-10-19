@@ -220,7 +220,14 @@ export default {
     const alt = img.getAttribute('alt');
     let image = null;
 
-    if (url.match(/\.mp4$/)) {
+    if (url.match(/\.pdf$/)) {
+      image = document.createElement('iframe');
+      image.src = encodeURI(`../pdf/viewer?file=${url}`);
+      image.width = '90%';
+      image.height = '95%';
+      image.style = "margin: 0 5%; margin-top: 10px";
+    }
+    else if (url.match(/\.mp4$/)) {
       image = document.createElement('video');
       image.controls = true;
       image.autoplay = true;
