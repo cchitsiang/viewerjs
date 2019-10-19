@@ -5,7 +5,7 @@
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2019-10-02T09:29:07.561Z
+ * Date: 2019-10-19T15:42:38.514Z
  */
 
 .viewer-zoom-in::before,
@@ -153,6 +153,13 @@
 }
 
 .viewer-canvas > img {
+  height: auto;
+  margin: 15px auto;
+  max-width: 90% !important;
+  width: auto;
+}
+
+.viewer-canvas > video {
   height: auto;
   margin: 15px auto;
   max-width: 90% !important;

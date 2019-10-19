@@ -5,7 +5,7 @@
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2019-10-02T09:29:13.426Z
+ * Date: 2019-10-19T15:42:38.295Z
  */
 
 (function (global, factory) {
@@ -334,6 +334,7 @@
   var EVENT_HIDE = 'hide';
   var EVENT_KEY_DOWN = 'keydown';
   var EVENT_LOAD = 'load';
+  var EVENT_LOADEDMETADATA = 'loadedmetadata';
   var EVENT_TOUCH_START = IS_TOUCH_DEVICE ? 'touchstart' : 'mousedown';
   var EVENT_TOUCH_MOVE = IS_TOUCH_DEVICE ? 'touchmove' : 'mousemove';
   var EVENT_TOUCH_END = IS_TOUCH_DEVICE ? 'touchend touchcancel' : 'mouseup';
@@ -857,6 +858,11 @@
 
     if (image.naturalWidth && !IS_SAFARI) {
       callback(image.naturalWidth, image.naturalHeight);
+      return newImage;
+    }
+
+    if (image.videoWidth) {
+      callback(image.videoWidth, image.videoHeight);
       return newImage;
     }
 
@@ -1643,6 +1649,9 @@
           addListener(image, EVENT_LOAD, _this3.loadImage.bind(_this3), {
             once: true
           });
+          addListener(image, EVENT_LOADEDMETADATA, _this3.loadImage.bind(_this3), {
+            once: true
+          });
           dispatchEvent(image, EVENT_LOAD);
         });
       }
@@ -1855,9 +1864,21 @@
       var img = item.querySelector('img');
       var url = getData(img, 'originalUrl');
       var alt = img.getAttribute('alt');
-      var image = document.createElement('img');
-      image.src = url;
-      image.alt = alt;
+      var image = null;
+
+      if (url.match(/\.mp4$/)) {
+        image = document.createElement('video');
+        image.controls = true;
+        image.autoplay = true;
+        var videoSource = document.createElement('source');
+        videoSource.src = url;
+        videoSource.type = 'video/mp4';
+        image.appendChild(videoSource);
+      } else {
+        image = document.createElement('img');
+        image.src = url;
+        image.alt = alt;
+      }
 
       if (isFunction(options.view)) {
         addListener(element, EVENT_VIEW, options.view, {
@@ -1928,6 +1949,9 @@
         this.load();
       } else {
         addListener(image, EVENT_LOAD, onLoad = this.load.bind(this), {
+          once: true
+        });
+        addListener(image, EVENT_LOADEDMETADATA, onLoad = this.load.bind(this), {
           once: true
         });
 
@@ -3097,3 +3121,4 @@
   return Viewer;
 
 }));
+//# sourceMappingURL=viewer.js.map

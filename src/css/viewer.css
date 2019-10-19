@@ -140,6 +140,13 @@
     max-width: 90% !important;
     width: auto;
   }
+
+  & > video {
+    height: auto;
+    margin: 15px auto;
+    max-width: 90% !important;
+    width: auto;
+  }
 }
 
 .viewer-footer {
